@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jacket-tshirt-service-deployment
+  labels:
+    app: jacket-tshirt-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jacket-tshirt-service
+  template:
+    metadata:
+      labels:
+        app: jacket-tshirt-service
+    spec:
+      containers:
+        - name: jacket-tshirt-service
+          image: grz3lak1997/jacket-tshirt-service:1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env: # Setting Enviornmental Variables
+            - name: DB_HOST   # Setting Database host address from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-conf  # name of configMap
+                  key: host
+            - name: DB_NAME  # Setting Database name from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-conf
+                  key: name
+            - name: DB_USERNAME  # Setting Database username from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials # Secret Name
+                  key: username
+            - name: DB_PASSWORD # Setting Database password from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jacket-tshirt-service-service
+  labels:
+    app: jacket-tshirt-service
+spec:
+  selector:
+    app: jacket-tshirt-service
+  ports:
+    - protocol: TCP
+      name: http-traffic
+      port: 8080
+      targetPort: 8080

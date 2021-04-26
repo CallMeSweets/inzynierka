@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.*;
 public class BasketController {
 
 
-    private BasketService basketService;
+    private final BasketService basketService;
 
     public BasketController(BasketService basketService) {
         this.basketService = basketService;
     }
 
+    @GetMapping("/status")
+    public String status(){
+        return "OK";
+    }
 
     @GetMapping
     public ResponseEntity<Basket> getBasket(){

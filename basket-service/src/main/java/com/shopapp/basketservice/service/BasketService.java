@@ -2,6 +2,7 @@ package com.shopapp.basketservice.service;
 
 import com.shopapp.basketservice.exception.BasketNoInitializeException;
 import com.shopapp.basketservice.model.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,10 +14,26 @@ import java.util.NoSuchElementException;
 public class BasketService {
 
     private final WebClient.Builder webClientBuilder;
+    private final String receiptServiceAddress;
+    private final String shoesServiceAddress;
+    private final String bookServiceAddress;
+    private final String jacketTshirtServiceAddress;
+    private final String salesServiceAddress;
+
     private Basket basket;
 
-    public BasketService(WebClient.Builder webClientBuilder) {
+    public BasketService(WebClient.Builder webClientBuilder,
+                         @Value("${receipt.service.address}") String receiptServiceAddress,
+                         @Value("${shoes.service.address}") String shoesServiceAddress,
+                         @Value("${book.service.address}") String bookServiceAddress,
+                         @Value("${jacket.tshrit.service.address}") String jacketTshirtServiceAddress,
+                         @Value("${sales.service.address}") String salesServiceAddress) {
         this.webClientBuilder = webClientBuilder;
+        this.receiptServiceAddress = receiptServiceAddress;
+        this.shoesServiceAddress = shoesServiceAddress;
+        this.bookServiceAddress = bookServiceAddress;
+        this.jacketTshirtServiceAddress = jacketTshirtServiceAddress;
+        this.salesServiceAddress = salesServiceAddress;
     }
 
     public Basket getBasket(){
@@ -32,7 +49,7 @@ public class BasketService {
         }
         Book book = webClientBuilder.build()
                     .get()
-                    .uri("localhost:8070/api/v1/book/" + bookId)
+                    .uri(bookServiceAddress + ":8080/api/v1/book/" + bookId)
                     .retrieve()
                     .bodyToMono(Book.class)
                     .block();
@@ -47,7 +64,7 @@ public class BasketService {
         }
         Shoe shoe = webClientBuilder.build()
                 .get()
-                .uri("localhost:8069/api/v1/shoe/" + shoeId)
+                .uri(shoesServiceAddress + ":8080/api/v1/shoe/" + shoeId)
                 .retrieve()
                 .bodyToMono(Shoe.class)
                 .block();
@@ -62,7 +79,7 @@ public class BasketService {
         }
         Jacket jacket = webClientBuilder.build()
                 .get()
-                .uri("localhost:8071/api/v1/jacket/" + jacketId)
+                .uri(jacketTshirtServiceAddress + ":8080/api/v1/jacket/" + jacketId)
                 .retrieve()
                 .bodyToMono(Jacket.class)
                 .block();
@@ -77,7 +94,7 @@ public class BasketService {
         }
         Tshirt tshirt = webClientBuilder.build()
                 .get()
-                .uri("localhost:8071/api/v1/tshirt/" + tshirtId)
+                .uri(jacketTshirtServiceAddress + ":8080/api/v1/tshirt/" + tshirtId)
                 .retrieve()
                 .bodyToMono(Tshirt.class)
                 .block();
@@ -124,7 +141,7 @@ public class BasketService {
         }
         BasketDiscount basketDiscount = webClientBuilder.build()
                 .post()
-                .uri("localhost:8075/api/v1/sales")
+                .uri(salesServiceAddress + ":8080/api/v1/sales")
                 .body(Mono.just(basket), Basket.class)
                 .retrieve()
                 .bodyToMono(BasketDiscount.class)
@@ -139,7 +156,7 @@ public class BasketService {
         }
         BasketReceipt basketReceipt = webClientBuilder.build()
                 .post()
-                .uri("localhost:8073/api/v1/receipt")
+                .uri(receiptServiceAddress + ":8080/api/v1/receipt")
                 .body(Mono.just(basket), Basket.class)
                 .retrieve()
                 .bodyToMono(BasketReceipt.class)
@@ -147,7 +164,7 @@ public class BasketService {
 
         webClientBuilder.build()
                 .post()
-                .uri("localhost:8073/api/v1/receipt/email")
+                .uri(receiptServiceAddress + ":8080/api/v1/receipt/email")
                 .body(Mono.just(basket), Basket.class)
                 .retrieve()
                 .bodyToMono(String.class)
