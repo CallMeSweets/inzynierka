@@ -1,6 +1,7 @@
 package com.shopapp.clothesservice.controller;
 
 import com.shopapp.clothesservice.model.Jacket;
+import com.shopapp.clothesservice.service.JacketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,52 +9,52 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/jacket")
 public class JacketController {
 
+    private JacketService jacketService;
+
+    public JacketController(JacketService jacketService) {
+        this.jacketService = jacketService;
+    }
+
     @PostMapping
     public ResponseEntity<Jacket> createJacket(@RequestBody Jacket jacket){
-
-        return null;
+        return ResponseEntity.ok(jacketService.createJacket(jacket));
     }
 
     @PutMapping
     public ResponseEntity<Jacket> updateJacket(@RequestBody Jacket jacket){
-
-        return null;
+        return ResponseEntity.ok(jacketService.updateJacket(jacket));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Jacket> getJacketById(@PathVariable("id") Long id){
-
-        return null;
+        return ResponseEntity.ok(jacketService.getJacketById(id));
     }
 
-    @GetMapping("/{mark}")
+    @GetMapping("/mark/{mark}")
     public ResponseEntity<Jacket> getJacketByMark(@PathVariable("mark") String mark){
-
-        return null;
+        return ResponseEntity.ok(jacketService.getJacketByMark(mark));
     }
 
-    @GetMapping("/{size}")
+    @GetMapping("/size/{size}")
     public ResponseEntity<Jacket> getJacketBySize(@PathVariable("size") String size){
-
-        return null;
+        return ResponseEntity.ok(jacketService.getJacketBySize(size));
     }
 
-    @GetMapping("/{producer}")
+    @GetMapping("/producer/{producer}")
     public ResponseEntity<Jacket> getJacketByProducer(@PathVariable("producer") String producer){
-
-        return null;
+        return ResponseEntity.ok(jacketService.getJacketByProducer(producer));
     }
 
     @DeleteMapping
     public ResponseEntity deleteJacket(@RequestBody Jacket jacket){
-
-        return null;
+        jacketService.deleteJacket(jacket);
+        return ResponseEntity.ok("Jacket deleted");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteJacketById(@PathVariable("id") Long id){
-
-        return null;
+        jacketService.deleteJacketById(id);
+        return ResponseEntity.ok("Jacket deleted");
     }
 
 }

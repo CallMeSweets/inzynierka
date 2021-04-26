@@ -1,6 +1,7 @@
 package com.shopapp.shoesservice.controller;
 
 import com.shopapp.shoesservice.model.Shoe;
+import com.shopapp.shoesservice.service.ShoeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,52 +9,52 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/shoe")
 public class ShoeController {
 
+    private ShoeService shoeService;
+
+    public ShoeController(ShoeService shoeService) {
+        this.shoeService = shoeService;
+    }
+
     @PostMapping
     public ResponseEntity<Shoe> createShoe(@RequestBody Shoe shoe){
-
-        return null;
+        return ResponseEntity.ok(shoeService.createShoe(shoe));
     }
 
     @PutMapping
     public ResponseEntity<Shoe> updateShoe(@RequestBody Shoe shoe){
-
-        return null;
+        return ResponseEntity.ok(shoeService.updateShoe(shoe));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Shoe> getShoeById(@PathVariable("id") Long id){
-
-        return null;
+        return ResponseEntity.ok(shoeService.getShoeById(id));
     }
 
-    @GetMapping("/{mark}")
+    @GetMapping("/mark/{mark}")
     public ResponseEntity<Shoe> getShoeByMark(@PathVariable("mark") String mark){
-
-        return null;
+        return ResponseEntity.ok(shoeService.getShoeByMark(mark));
     }
 
-    @GetMapping("/{size}")
+    @GetMapping("/size/{size}")
     public ResponseEntity<Shoe> getShoeBySize(@PathVariable("size") String size){
-
-        return null;
+        return ResponseEntity.ok(shoeService.getShoeBySize(size));
     }
 
-    @GetMapping("/{producer}")
+    @GetMapping("/producer/{producer}")
     public ResponseEntity<Shoe> getShoeByProducer(@PathVariable("producer") String producer){
-
-        return null;
+        return ResponseEntity.ok(shoeService.getShoeByProducer(producer));
     }
 
     @DeleteMapping
     public ResponseEntity deleteShoe(@RequestBody Shoe shoe){
-
-        return null;
+        shoeService.deleteShoe(shoe);
+        return ResponseEntity.ok("Shoe deleted");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteShoeById(@PathVariable("id") Long id){
-
-        return null;
+        shoeService.deleteShoeById(id);
+        return ResponseEntity.ok("Shoe deleted");
     }
 
 }

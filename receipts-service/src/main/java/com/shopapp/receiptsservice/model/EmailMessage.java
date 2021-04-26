@@ -1,4 +1,4 @@
-package com.shopapp.mailingservice.model;
+package com.shopapp.receiptsservice.model;
 
 import lombok.Builder;
 import lombok.Data;

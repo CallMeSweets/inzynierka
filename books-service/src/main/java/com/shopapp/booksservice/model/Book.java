@@ -1,5 +1,6 @@
 package com.shopapp.booksservice.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 public class Book {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
 
    private Integer price;
@@ -20,4 +21,15 @@ public class Book {
    private String author;
 
    private String description;
+
+   public Book(Integer price, String title, String author, String description) {
+      this.price = price;
+      this.title = title;
+      this.author = author;
+      this.description = description;
+   }
+
+   public Book() {
+
+   }
 }
