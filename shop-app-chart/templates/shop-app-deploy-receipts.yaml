@@ -1,0 +1,46 @@
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: receipts-service-deployment
+  labels:
+    app: {{ .Values.applications.deployment.receipts }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.applications.deployment.receipts }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.applications.deployment.receipts }}
+    spec:
+      containers:
+        - name: {{ .Values.applications.deployment.receipts }}
+          image: {{ .Values.applications.image.receipts }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MAILING_HOST
+              value: mailing-service-service
+            - name: SALES_HOST
+              value: sales-service-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.applications.services.receipts }}
+  labels:
+    app: {{ .Values.applications.deployment.receipts }}
+spec:
+  selector:
+    app: {{ .Values.applications.deployment.receipts }}
+  ports:
+    - protocol: TCP
+      name: http-traffic
+      port: 8080
+      targetPort: 8080
+

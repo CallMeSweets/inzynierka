@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basket-service-deployment
+  labels:
+    app: {{ .Values.applications.deployment.basket }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.applications.deployment.basket }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.applications.deployment.basket }}
+    spec:
+      containers:
+        - name: {{ .Values.applications.deployment.basket }}
+          image: {{ .Values.applications.image.basket }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: RECEIPT_HOST
+              value: receipts-service-service
+            - name: SHOES_HOST
+              value: shoes-service-service
+            - name: BOOK_HOST
+              value: books-service-service
+            - name: JACKET_TSHIRT_HOST
+              value: jacket-tshirt-service-service
+            - name: SALES_HOST
+              value: sales-service-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.applications.services.basket }}
+  labels:
+    app: {{ .Values.applications.deployment.basket }}
+spec:
+  selector:
+    app: {{ .Values.applications.deployment.basket }}
+  ports:
+    - protocol: TCP
+      name: http-traffic
+      port: 8080
+      targetPort: 8080
+
