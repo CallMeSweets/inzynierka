@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/account")
 public class RegisterController {
 
+    @GetMapping("/status")
+    public String status(){
+        return "OK";
+    }
+
     @PostMapping
     public ResponseEntity<Account> createAccount(@RequestBody Account account){
 

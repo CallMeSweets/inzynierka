@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mailing-service-deployment
+  name: sales-service-deployment
   labels:
-    app: mailing-service
+    app: sales-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: mailing-service
+      app: sales-service
   template:
     metadata:
       labels:
-        app: mailing-service
+        app: sales-service
     spec:
       containers:
-        - name: mailing-service
-          image: grz3lak1997/mailing-service:1
+        - name: sales-service
+          image: grz3lak1997/sales-service:1
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -25,12 +25,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mailing-service-service
+  name: sales-service-service
   labels:
-    app: mailing-service
+    app: sales-service
 spec:
   selector:
-    app: mailing-service
+    app: sales-service
   ports:
     - protocol: TCP
       name: http-traffic

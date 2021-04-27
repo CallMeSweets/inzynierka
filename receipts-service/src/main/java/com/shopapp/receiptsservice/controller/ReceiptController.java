@@ -16,6 +16,11 @@ public class ReceiptController {
         this.receiptService = receiptService;
     }
 
+    @GetMapping("/status")
+    public String status(){
+        return "OK";
+    }
+
     @PostMapping
     public ResponseEntity<BasketReceipt> makeReceiptForBasket(@RequestBody Basket basket){
         return ResponseEntity.ok(receiptService.getReceiptForBasket(basket));

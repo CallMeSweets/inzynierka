@@ -9,10 +9,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/shoe")
 public class ShoeController {
 
-    private ShoeService shoeService;
+    private final ShoeService shoeService;
 
     public ShoeController(ShoeService shoeService) {
         this.shoeService = shoeService;
+    }
+
+    @GetMapping("/status")
+    public String status(){
+        return "OK";
     }
 
     @PostMapping

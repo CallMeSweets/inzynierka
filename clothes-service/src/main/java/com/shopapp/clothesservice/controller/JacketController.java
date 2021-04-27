@@ -9,10 +9,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/jacket")
 public class JacketController {
 
-    private JacketService jacketService;
+    private final JacketService jacketService;
 
     public JacketController(JacketService jacketService) {
         this.jacketService = jacketService;
+    }
+
+    @GetMapping("/status")
+    public String status(){
+        return "OK";
     }
 
     @PostMapping

@@ -1,6 +1,7 @@
 package com.shopapp.receiptsservice.service;
 
 import com.shopapp.receiptsservice.model.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -13,9 +14,15 @@ import java.util.stream.Collectors;
 public class ReceiptService {
 
     private final WebClient.Builder webClientBuilder;
+    private final String mailingServiceAddress;
+    private final String salesServiceAddress;
 
-    public ReceiptService(WebClient.Builder webClientBuilder) {
+    public ReceiptService(WebClient.Builder webClientBuilder,
+                          @Value("${mailing.service.address}") String mailingServiceAddress,
+                          @Value("${sales.service.address}") String salesServiceAddress) {
         this.webClientBuilder = webClientBuilder;
+        this.mailingServiceAddress = mailingServiceAddress;
+        this.salesServiceAddress = salesServiceAddress;
     }
 
     public BasketReceipt getReceiptForBasket(Basket basket){
@@ -44,7 +51,7 @@ public class ReceiptService {
     public BasketDiscount getDiscountForBasket(Basket basket){
         BasketDiscount basketDiscount = webClientBuilder.build()
                 .post()
-                .uri("localhost:8075/api/v1/sales")
+                .uri(salesServiceAddress + ":8080/api/v1/sales")
                 .body(Mono.just(basket), Basket.class)
                 .retrieve()
                 .bodyToMono(BasketDiscount.class)
@@ -56,7 +63,7 @@ public class ReceiptService {
     public void sendEmailMessageForBasket(Basket basket) {
                 webClientBuilder.build()
                 .post()
-                .uri("localhost:8074/api/v1/email")
+                .uri(mailingServiceAddress + ":8080/api/v1/email")
                 .body(Mono.just(prepareEmailMessage(basket)), EmailMessage.class)
                 .retrieve()
                 .bodyToMono(BasketDiscount.class)

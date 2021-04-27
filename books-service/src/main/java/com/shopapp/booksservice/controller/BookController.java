@@ -12,10 +12,15 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/api/v1/book")
 public class BookController {
 
-    private BookService bookService;
+    private final BookService bookService;
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @GetMapping("/status")
+    public String status(){
+        return "OK";
     }
 
     @PostMapping

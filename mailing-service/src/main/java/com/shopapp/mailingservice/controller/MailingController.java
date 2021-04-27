@@ -15,6 +15,11 @@ public class MailingController {
         this.mailingservice = mailingservice;
     }
 
+    @GetMapping("/status")
+    public String status(){
+        return "OK";
+    }
+
     @PostMapping
     public void sendEmailMessage(@RequestBody EmailMessage emailMessage){
         mailingservice.sendEmailMessage(emailMessage);
