@@ -60,3 +60,18 @@ spec:
       port: 8080
       targetPort: 8080
 
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Values.applications.prometheus.monitor.books }}
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.applications.deployment.books }}
+  endpoints:
+    - port: http-traffic
+      path: "/actuator/prometheus"
+      interval: 10s

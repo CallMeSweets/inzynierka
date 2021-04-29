@@ -47,3 +47,19 @@ spec:
       name: http-traffic
       port: 8080
       targetPort: 8080
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: basket-service-monitor
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: basket-service
+  endpoints:
+    - port: http-traffic
+      path: "/actuator/prometheus"
+      interval: 10s

@@ -65,6 +65,15 @@ applications:
     receipts: grz3lak1997/receipts-service:1
     sales: grz3lak1997/sales-service:1
     shoes: grz3lak1997/shoes-service:1
+  prometheus:
+    monitor:
+      mailing: mailing-service-monitor
+      books: books-service-monitor
+      basket: basket-service-monitor
+      jackettshirt: jacket-tshirt-service-monitor
+      receipts: receipts-service-monitor
+      sales: sales-service-monitor
+      shoes: shoes-service-monitor
 
 ingress:
   enabled: false
