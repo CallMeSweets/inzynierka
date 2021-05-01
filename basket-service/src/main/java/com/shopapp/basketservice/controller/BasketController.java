@@ -1,6 +1,7 @@
 package com.shopapp.basketservice.controller;
 
 import com.shopapp.basketservice.model.*;
+import com.shopapp.basketservice.prometheus.MetricsService;
 import com.shopapp.basketservice.service.BasketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,25 +10,29 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/basket")
 public class BasketController {
 
-
+    private final MetricsService metricsService;
     private final BasketService basketService;
 
-    public BasketController(BasketService basketService) {
+    public BasketController(MetricsService metricsService, BasketService basketService) {
+        this.metricsService = metricsService;
         this.basketService = basketService;
     }
 
     @GetMapping("/status")
     public String status(){
+        metricsService.increaseRequestNumber();
         return "OK";
     }
 
     @GetMapping
     public ResponseEntity<Basket> getBasket(){
+        metricsService.increaseRequestNumber();
         return ResponseEntity.ok(basketService.getBasket());
     }
 
     @GetMapping("/discount")
     public ResponseEntity<BasketDiscount> getBasketWithDiscount(){
+        metricsService.increaseRequestNumber();
         return ResponseEntity.ok(basketService.getBasketWithDiscount());
     }
 
@@ -38,6 +43,7 @@ public class BasketController {
 
     @GetMapping("/book/{bookId}")
     public ResponseEntity<Basket> addBookToBasket(@PathVariable("bookId") Long bookId){
+        metricsService.increaseRequestNumber();
         return ResponseEntity.ok(basketService.addBookToBasket(bookId));
     }
 
@@ -48,31 +54,37 @@ public class BasketController {
 
     @GetMapping("/jacket/{jacketId}")
     public ResponseEntity<Basket> addJacketToBasket(@PathVariable("jacketId") Long jacketId){
+        metricsService.increaseRequestNumber();
         return ResponseEntity.ok(basketService.addJacketToBasket(jacketId));
     }
 
     @GetMapping("/tshirt/{tshirtId}")
     public ResponseEntity<Basket> addTshirtToBasket(@PathVariable("tshirtId") Long tshirtId){
+        metricsService.increaseRequestNumber();
         return ResponseEntity.ok(basketService.addTshirtToBasket(tshirtId));
     }
 
     @DeleteMapping("/book/{bookId}")
     public ResponseEntity<Basket> deleteBookFromBasket(@PathVariable("bookId") Long bookId){
+        metricsService.increaseRequestNumber();
         return ResponseEntity.ok(basketService.deleteBookFromBasket(bookId));
     }
 
     @DeleteMapping("/shoe/{shoeId}")
     public ResponseEntity<Basket> deleteShoeFromBasket(@PathVariable("shoeId") Long shoeId){
+        metricsService.increaseRequestNumber();
         return ResponseEntity.ok(basketService.deleteShoeFromBasket(shoeId));
     }
 
     @DeleteMapping("/jacket/{jacketId}")
     public ResponseEntity<Basket> deleteJacketFromBasket(@PathVariable("jacketId") Long jacketId){
+        metricsService.increaseRequestNumber();
         return ResponseEntity.ok(basketService.deleteJacketFromBasket(jacketId));
     }
 
     @DeleteMapping("/tshirt/{tshirtId}")
     public ResponseEntity<Basket> deleteTshirtFromBasket(@PathVariable("tshirtId") Long tshirtId){
+        metricsService.increaseRequestNumber();
         return ResponseEntity.ok(basketService.deleteTshirtFromBasket(tshirtId));
     }
 

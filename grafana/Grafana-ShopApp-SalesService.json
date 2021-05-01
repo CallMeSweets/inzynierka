@@ -66,7 +66,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "total_mailing_service_request_total",
+          "expr": "total_sales_service_request_total",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -76,7 +76,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Mailing Service Total Number of Requests",
+      "title": "Sales Service Total Number of Requests",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -161,7 +161,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(total_mailing_service_request_total[15m])",
+          "expr": "rate(total_sales_service_request_total[30m])",
           "instant": false,
           "interval": "",
           "intervalFactor": 1,
@@ -173,7 +173,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Mailing Service Request Rate",
+      "title": "Sales Service Request Rate",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -241,7 +241,7 @@
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
@@ -258,7 +258,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "log_file_size_mailing_service",
+          "expr": "log_file_size_sales_service",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -268,7 +268,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Mailing Service Log File Free Space",
+      "title": "Sales Service Log File Free Space",
       "tooltip": {
         "shared": true,
         "sort": 0,
