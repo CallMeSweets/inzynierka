@@ -50,9 +50,9 @@ public class MetricsService {
         FileStore file = null;
         try {
             file = Files.getFileStore(path);
-            long availableBytes = file.getUsableSpace();
-            logger.info("FREE SPACE: " + availableBytes);
-            logFileSize.set(availableBytes);
+            long freeSizeInGB = (file.getUsableSpace() / (1024 * 1024));
+            logger.info("FREE SPACE IN GB: " + freeSizeInGB);
+            logFileSize.set(freeSizeInGB);
         } catch (IOException e) {
             e.printStackTrace();
         }
