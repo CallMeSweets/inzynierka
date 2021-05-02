@@ -1,0 +1,18 @@
+resources:
+  - ../../base
+
+namePrefix: prod-
+
+commonLabels:
+  env: prod
+
+patches:
+  - replicas-number.yaml
+
+images:
+  - name: grz3lak1997/mailing-service
+    newName: grz3lak1997/mailing-service
+    newTag: "1"
+  - name: grz3lak1997/shoes-service
+    newName: grz3lak1997/shoes-service
+    newTag: "1"

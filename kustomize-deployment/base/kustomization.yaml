@@ -1,0 +1,15 @@
+resources:
+  - mysql-configmap.yml
+  - mysql-deployment.yaml
+  - mysqldb-credentials.yml
+  - mysqldb-root-credentials.yml
+  - basket-service.yaml
+  - books-service.yaml
+  - jacket-tshirt-service.yaml
+  - mailing-service.yaml
+  - receipts-service.yaml
+  - sales-service.yaml
+  - shoes-service.yaml
+
+commonLabels:
+  owner: grzelak

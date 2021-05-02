@@ -1,0 +1,11 @@
+resources:
+  - ../../../yamls
+
+namePrefix: dev-
+
+commonLabels:
+  env: dev
+
+patches:
+  - replicas-number.yaml
+

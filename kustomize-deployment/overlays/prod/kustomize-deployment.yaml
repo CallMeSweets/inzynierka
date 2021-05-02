@@ -1,0 +1,664 @@
+apiVersion: v1
+data:
+  host: mysql
+  name: shop_app
+kind: ConfigMap
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+  name: prod-db-conf
+---
+apiVersion: v1
+data:
+  password: dGVzdHVzZXJAMTIz
+  username: dGVzdHVzZXI=
+kind: Secret
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+  name: prod-db-credentials
+---
+apiVersion: v1
+data:
+  password: YWRtaW4xMjM=
+kind: Secret
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+  name: prod-db-root-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: basket-service
+    env: prod
+    owner: grzelak
+  name: prod-basket-service-service
+spec:
+  ports:
+  - name: http-traffic
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: basket-service
+    env: prod
+    owner: grzelak
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: books-service
+    env: prod
+    owner: grzelak
+  name: prod-books-service-service
+spec:
+  ports:
+  - name: http-traffic
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: books-service
+    env: prod
+    owner: grzelak
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jacket-tshirt-service
+    env: prod
+    owner: grzelak
+  name: prod-jacket-tshirt-service-service
+spec:
+  ports:
+  - name: http-traffic
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: jacket-tshirt-service
+    env: prod
+    owner: grzelak
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mailing-service
+    env: prod
+    owner: grzelak
+  name: prod-mailing-service-service
+spec:
+  ports:
+  - name: http-traffic
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: mailing-service
+    env: prod
+    owner: grzelak
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mysql
+    env: prod
+    owner: grzelak
+    tier: database
+  name: prod-mysql
+spec:
+  clusterIP: None
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    app: mysql
+    env: prod
+    owner: grzelak
+    tier: database
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: receipts-service
+    env: prod
+    owner: grzelak
+  name: prod-receipts-service-service
+spec:
+  ports:
+  - name: http-traffic
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: receipts-service
+    env: prod
+    owner: grzelak
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: sales-service
+    env: prod
+    owner: grzelak
+  name: prod-sales-service-service
+spec:
+  ports:
+  - name: http-traffic
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: sales-service
+    env: prod
+    owner: grzelak
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: shoes-service
+    env: prod
+    owner: grzelak
+  name: prod-shoes-service-service
+spec:
+  ports:
+  - name: http-traffic
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: shoes-service
+    env: prod
+    owner: grzelak
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: mysql
+    env: prod
+    owner: grzelak
+    tier: database
+  name: prod-mysql-pv-claim
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: basket-service
+    env: prod
+    owner: grzelak
+  name: prod-basket-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basket-service
+      env: prod
+      owner: grzelak
+  template:
+    metadata:
+      labels:
+        app: basket-service
+        env: prod
+        owner: grzelak
+    spec:
+      containers:
+      - env:
+        - name: RECEIPT_HOST
+          value: receipts-service-service
+        - name: SHOES_HOST
+          value: shoes-service-service
+        - name: BOOK_HOST
+          value: books-service-service
+        - name: JACKET_TSHIRT_HOST
+          value: jacket-tshirt-service-service
+        - name: SALES_HOST
+          value: sales-service-service
+        image: grz3lak1997/basket-service:1
+        imagePullPolicy: Always
+        name: basket-service
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: books-service
+    env: prod
+    owner: grzelak
+  name: prod-books-service-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: books-service
+      env: prod
+      owner: grzelak
+  template:
+    metadata:
+      labels:
+        app: books-service
+        env: prod
+        owner: grzelak
+    spec:
+      containers:
+      - env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: host
+              name: prod-db-conf
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: name
+              name: prod-db-conf
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: prod-db-credentials
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: prod-db-credentials
+        image: grz3lak1997/books-service:1
+        imagePullPolicy: Always
+        name: books-service
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jacket-tshirt-service
+    env: prod
+    owner: grzelak
+  name: prod-jacket-tshirt-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jacket-tshirt-service
+      env: prod
+      owner: grzelak
+  template:
+    metadata:
+      labels:
+        app: jacket-tshirt-service
+        env: prod
+        owner: grzelak
+    spec:
+      containers:
+      - env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: host
+              name: prod-db-conf
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: name
+              name: prod-db-conf
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: prod-db-credentials
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: prod-db-credentials
+        image: grz3lak1997/jacket-tshirt-service:1
+        imagePullPolicy: Always
+        name: jacket-tshirt-service
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mailing-service
+    env: prod
+    owner: grzelak
+  name: prod-mailing-service-deployment
+spec:
+  replicas: 7
+  selector:
+    matchLabels:
+      app: mailing-service
+      env: prod
+      owner: grzelak
+  template:
+    metadata:
+      labels:
+        app: mailing-service
+        env: prod
+        owner: grzelak
+    spec:
+      containers:
+      - image: grz3lak1997/mailing-service:1
+        imagePullPolicy: Always
+        name: mailing-service
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mysql
+    env: prod
+    owner: grzelak
+    tier: database
+  name: prod-mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+      env: prod
+      owner: grzelak
+      tier: database
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+        env: prod
+        owner: grzelak
+        tier: database
+    spec:
+      containers:
+      - args:
+        - --ignore-db-dir=lost+found
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: prod-db-root-credentials
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: prod-db-credentials
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: prod-db-credentials
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: name
+              name: prod-db-conf
+        image: mysql:5.7
+        name: mysql
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-persistent-storage
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: prod-mysql-pv-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: receipts-service
+    env: prod
+    owner: grzelak
+  name: prod-receipts-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: receipts-service
+      env: prod
+      owner: grzelak
+  template:
+    metadata:
+      labels:
+        app: receipts-service
+        env: prod
+        owner: grzelak
+    spec:
+      containers:
+      - env:
+        - name: MAILING_HOST
+          value: mailing-service-service
+        - name: SALES_HOST
+          value: sales-service-service
+        image: grz3lak1997/receipts-service:1
+        imagePullPolicy: Always
+        name: receipts-service
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sales-service
+    env: prod
+    owner: grzelak
+  name: prod-sales-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sales-service
+      env: prod
+      owner: grzelak
+  template:
+    metadata:
+      labels:
+        app: sales-service
+        env: prod
+        owner: grzelak
+    spec:
+      containers:
+      - image: grz3lak1997/sales-service:1
+        imagePullPolicy: Always
+        name: sales-service
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: shoes-service
+    env: prod
+    owner: grzelak
+  name: prod-shoes-service-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shoes-service
+      env: prod
+      owner: grzelak
+  template:
+    metadata:
+      labels:
+        app: shoes-service
+        env: prod
+        owner: grzelak
+    spec:
+      containers:
+      - env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: host
+              name: prod-db-conf
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: name
+              name: prod-db-conf
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: prod-db-credentials
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: prod-db-credentials
+        image: grz3lak1997/shoes-service:1
+        imagePullPolicy: Always
+        name: shoes-service
+        ports:
+        - containerPort: 8080
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+    release: prometheus
+  name: prod-basket-service-monitor
+spec:
+  endpoints:
+  - interval: 10s
+    path: /actuator/prometheus
+    port: http-traffic
+  selector:
+    matchLabels:
+      app: basket-service
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+    release: prometheus
+  name: prod-books-service-monitor
+spec:
+  endpoints:
+  - interval: 10s
+    path: /actuator/prometheus
+    port: http-traffic
+  selector:
+    matchLabels:
+      app: books-service
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+    release: prometheus
+  name: prod-jacket-tshirt-service-monitor
+spec:
+  endpoints:
+  - interval: 10s
+    path: /actuator/prometheus
+    port: http-traffic
+  selector:
+    matchLabels:
+      app: jacket-tshirt-service
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+    release: prometheus
+  name: prod-mailing-service-monitor
+spec:
+  endpoints:
+  - interval: 10s
+    path: /actuator/prometheus
+    port: http-traffic
+  selector:
+    matchLabels:
+      app: mailing-service
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+    release: prometheus
+  name: prod-receipt-service-monitor
+spec:
+  endpoints:
+  - interval: 10s
+    path: /actuator/prometheus
+    port: http-traffic
+  selector:
+    matchLabels:
+      app: receipt-service
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+    release: prometheus
+  name: prod-sales-service-monitor
+spec:
+  endpoints:
+  - interval: 10s
+    path: /actuator/prometheus
+    port: http-traffic
+  selector:
+    matchLabels:
+      app: sales-service
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    env: prod
+    owner: grzelak
+    release: prometheus
+  name: prod-shoes-service-monitor
+spec:
+  endpoints:
+  - interval: 10s
+    path: /actuator/prometheus
+    port: http-traffic
+  selector:
+    matchLabels:
+      app: shoes-service

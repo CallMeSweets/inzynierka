@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shoes-service-deployment
+  labels:
+    app: shoes-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shoes-service
+  template:
+    metadata:
+      labels:
+        app: shoes-service
+    spec:
+      containers:
+        - name: shoes-service
+          image: grz3lak1997/shoes-service:1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env: # Setting Enviornmental Variables
+            - name: DB_HOST   # Setting Database host address from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-conf  # name of configMap
+                  key: host
+            - name: DB_NAME  # Setting Database name from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-conf
+                  key: name
+            - name: DB_USERNAME  # Setting Database username from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials # Secret Name
+                  key: username
+            - name: DB_PASSWORD # Setting Database password from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shoes-service-service
+  labels:
+    app: shoes-service
+spec:
+  selector:
+    app: shoes-service
+  ports:
+    - protocol: TCP
+      name: http-traffic
+      port: 8080
+      targetPort: 8080
+
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: shoes-service-monitor
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: shoes-service
+  endpoints:
+    - port: http-traffic
+      path: "/actuator/prometheus"
+      interval: 10s
