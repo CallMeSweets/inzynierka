@@ -1,13 +1,11 @@
-
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mailing-service-deployment
+  name: {{ .Values.applications.name.mailing }}
   labels:
     app: {{ .Values.applications.deployment.mailing }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.applications.replicas.mailing }}
   selector:
     matchLabels:
       app: {{ .Values.applications.deployment.mailing }}
@@ -21,7 +19,7 @@ spec:
           image: {{ .Values.applications.image.mailing }}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.applications.port.mailing }}
 
 ---
 apiVersion: v1

@@ -1,13 +1,11 @@
-
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: books-service-deployment
+  name: {{ .Values.applications.name.books }}
   labels:
     app: {{ .Values.applications.deployment.books }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.applications.replicas.books }}
   selector:
     matchLabels:
       app: {{ .Values.applications.deployment.books }}
@@ -21,7 +19,7 @@ spec:
           image: {{ .Values.applications.image.books }}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.applications.port.books }}
           env: # Setting Enviornmental Variables
             - name: DB_HOST   # Setting Database host address from configMap
               valueFrom:

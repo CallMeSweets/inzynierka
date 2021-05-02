@@ -41,6 +41,30 @@ service:
   port: 80
 
 applications:
+  name:
+    mailing: mailing-service-deployment
+    books: books-service-deployment
+    basket: basket-service-deployment
+    jackettshirt: jacket-tshirt-service-deployment
+    receipts: receipts-service-deployment
+    sales: sales-service-deployment
+    shoes: shoes-service-deployment
+  port:
+    mailing: 8080
+    books: 8080
+    basket: 8080
+    jackettshirt: 8080
+    receipts: 8080
+    sales: 8080
+    shoes: 8080
+  replicas:
+    mailing: 1
+    books: 1
+    basket: 1
+    jackettshirt: 1
+    receipts: 1
+    sales: 1
+    shoes: 1
   deployment:
     mailing: mailing-service
     books: books-service

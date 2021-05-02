@@ -1,13 +1,11 @@
-
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sales-service-deployment
+  name: {{ .Values.applications.name.sales }}
   labels:
     app: {{ .Values.applications.deployment.sales }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.applications.replicas.sales }}
   selector:
     matchLabels:
       app: {{ .Values.applications.deployment.sales }}
@@ -21,7 +19,7 @@ spec:
           image: {{ .Values.applications.image.sales }}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.applications.port.sales }}
 
 ---
 apiVersion: v1

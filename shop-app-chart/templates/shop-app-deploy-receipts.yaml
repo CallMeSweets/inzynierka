@@ -1,13 +1,11 @@
-
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: receipts-service-deployment
+  name: {{ .Values.applications.name.receipts }}
   labels:
     app: {{ .Values.applications.deployment.receipts }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.applications.replicas.receipts }}
   selector:
     matchLabels:
       app: {{ .Values.applications.deployment.receipts }}
@@ -21,7 +19,7 @@ spec:
           image: {{ .Values.applications.image.receipts }}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.applications.port.receipts }}
           env:
             - name: MAILING_HOST
               value: mailing-service-service

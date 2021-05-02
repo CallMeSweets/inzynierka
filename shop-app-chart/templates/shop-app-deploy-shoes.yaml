@@ -1,13 +1,11 @@
-
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shoes-service-deployment
+  name: {{ .Values.applications.name.shoes }}
   labels:
     app: {{ .Values.applications.deployment.shoes }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.applications.replicas.shoes }}
   selector:
     matchLabels:
       app: {{ .Values.applications.deployment.shoes }}
@@ -21,7 +19,7 @@ spec:
           image: {{ .Values.applications.image.shoes }}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.applications.port.shoes }}
           env: # Setting Enviornmental Variables
             - name: DB_HOST   # Setting Database host address from configMap
               valueFrom:

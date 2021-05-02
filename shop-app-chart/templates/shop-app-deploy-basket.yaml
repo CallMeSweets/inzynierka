@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: basket-service-deployment
+  name: {{ .Values.applications.name.basket }}
   labels:
     app: {{ .Values.applications.deployment.basket }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.applications.replicas.basket }}
   selector:
     matchLabels:
       app: {{ .Values.applications.deployment.basket }}
@@ -19,7 +19,7 @@ spec:
           image: {{ .Values.applications.image.basket }}
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.applications.port.basket }}
           env:
             - name: RECEIPT_HOST
               value: receipts-service-service
