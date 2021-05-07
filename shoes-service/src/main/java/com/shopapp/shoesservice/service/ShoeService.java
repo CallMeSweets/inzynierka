@@ -3,6 +3,8 @@ package com.shopapp.shoesservice.service;
 import com.shopapp.shoesservice.dao.ShoeRepository;
 import com.shopapp.shoesservice.exception.ElementNotFoundException;
 import com.shopapp.shoesservice.model.Shoe;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,6 +53,12 @@ public class ShoeService {
 
     public void deleteShoeById(Long id){
         shoeRepository.deleteById(id);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void initDB(){
+        shoeRepository.save(new Shoe(10, "markTest1","sizeTest1", "producerTest1", "descriptionTest1"));
+        shoeRepository.save(new Shoe(11, "markTest2", "sizeTest2", "producerTest2", "descriptionTest2"));
     }
 
 }

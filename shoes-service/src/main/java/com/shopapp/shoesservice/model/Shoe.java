@@ -18,4 +18,15 @@ public class Shoe {
     private String size;
     private String producer;
     private String description;
+
+    public Shoe() {
+    }
+
+    public Shoe(Integer price, String mark, String size, String producer, String description) {
+        this.price = price;
+        this.mark = mark;
+        this.size = size;
+        this.producer = producer;
+        this.description = description;
+    }
 }

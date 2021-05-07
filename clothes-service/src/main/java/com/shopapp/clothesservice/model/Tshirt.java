@@ -19,4 +19,15 @@ public class Tshirt {
     private String size;
     private String producer;
     private String description;
+
+    public Tshirt() {
+    }
+
+    public Tshirt(Integer price, String mark, String size, String producer, String description) {
+        this.price = price;
+        this.mark = mark;
+        this.size = size;
+        this.producer = producer;
+        this.description = description;
+    }
 }

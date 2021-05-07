@@ -4,6 +4,8 @@ package com.shopapp.clothesservice.service;
 import com.shopapp.clothesservice.dao.TshirtRepository;
 import com.shopapp.clothesservice.exception.ElementNotFoundException;
 import com.shopapp.clothesservice.model.Tshirt;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,6 +54,12 @@ public class TshirtService {
 
     public void deleteTshirtById(Long id){
         tshirtRepository.deleteById(id);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void initDB(){
+        tshirtRepository.save(new Tshirt( 34, "markTest1", "sizeTest1", "producerTest1", "descriptionTest1"));
+        tshirtRepository.save(new Tshirt(35, "markTest2", "sizeTest2", "producerTest2", "descriptionTest2"));
     }
 
 }

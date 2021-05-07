@@ -3,6 +3,8 @@ package com.shopapp.clothesservice.service;
 import com.shopapp.clothesservice.dao.JacketRepository;
 import com.shopapp.clothesservice.exception.ElementNotFoundException;
 import com.shopapp.clothesservice.model.Jacket;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,6 +53,12 @@ public class JacketService {
 
     public void deleteJacketById(Long id){
         jacketRepository.deleteById(id);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void initDB(){
+        jacketRepository.save(new Jacket( 34, "markTest1", "sizeTest1", "producerTest1", "descriptionTest1"));
+        jacketRepository.save(new Jacket(35, "markTest2", "sizeTest2", "producerTest2", "descriptionTest2"));
     }
 
 }

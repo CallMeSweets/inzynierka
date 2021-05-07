@@ -10,7 +10,6 @@ import javax.persistence.Id;
 @Data
 @Entity
 public class Jacket {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,4 +18,15 @@ public class Jacket {
     private String size;
     private String producer;
     private String description;
+
+    public Jacket() {
+    }
+
+    public Jacket(Integer price, String mark, String size, String producer, String description) {
+        this.price = price;
+        this.mark = mark;
+        this.size = size;
+        this.producer = producer;
+        this.description = description;
+    }
 }
