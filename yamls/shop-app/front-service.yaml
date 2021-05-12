@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-service-deployment
+  labels:
+    app: front-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-service
+  template:
+    metadata:
+      labels:
+        app: front-service
+    spec:
+      containers:
+        - name: front-service
+          image: grz3lak1997/front-service:1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: BASKET_HOST
+              value: basket-service-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-service-service
+  labels:
+    app: front-service
+spec:
+  selector:
+    app: front-service
+  ports:
+    - protocol: TCP
+      name: http-traffic
+      port: 8080
+      targetPort: 8080

@@ -11,6 +11,7 @@ build() {
 }
 
 build_all(){
+    build_front_service
     build_basket_service
     build_books_service
     build_clothes_service
@@ -18,6 +19,14 @@ build_all(){
     build_receipts_service
     build_sales_service
     build_shoes_service
+}
+
+build_front_service(){
+    cd front-page-service
+    build
+    docker build -t grz3lak1997/front-service:1 .
+    docker push grz3lak1997/front-service:1
+    cd ..
 }
 
 build_basket_service(){
@@ -101,6 +110,9 @@ case "$1" in
     ;;
   shoes)
     build_shoes_service
+    ;;
+  front)
+    build_front_service
     ;;
   *)
     echo "Usage: $0 {all|shoes|sales|receipts|mailing|clothes|books|basket}"

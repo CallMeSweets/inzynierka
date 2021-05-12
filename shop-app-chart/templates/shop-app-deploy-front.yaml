@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.applications.name.front }}
+  labels:
+    app: {{ .Values.applications.deployment.front }}
+spec:
+  replicas: {{ .Values.applications.replicas.front }}
+  selector:
+    matchLabels:
+      app: {{ .Values.applications.deployment.front }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.applications.deployment.front }}
+    spec:
+      containers:
+        - name: {{ .Values.applications.deployment.front }}
+          image: {{ .Values.applications.image.front }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.applications.port.front }}
+          env:
+            - name: BASKET_HOST
+              value: basket-service-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.applications.services.front }}
+  labels:
+    app: {{ .Values.applications.deployment.front }}
+spec:
+  selector:
+    app: {{ .Values.applications.deployment.front }}
+  ports:
+    - protocol: TCP
+      name: http-traffic
+      port: 8080
+      targetPort: 8080
+

@@ -1,10 +1,10 @@
-package com.shopapp.accountcreationservice;
+package com.shopapp.frontpageservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AccountCreationServiceApplicationTests {
+class FrontPageServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

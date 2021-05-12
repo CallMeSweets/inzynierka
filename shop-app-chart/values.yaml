@@ -49,6 +49,7 @@ applications:
     receipts: receipts-service-deployment
     sales: sales-service-deployment
     shoes: shoes-service-deployment
+    front: front-service-deployment
   port:
     mailing: 8080
     books: 8080
@@ -57,6 +58,7 @@ applications:
     receipts: 8080
     sales: 8080
     shoes: 8080
+    front: 8080
   replicas:
     mailing: 1
     books: 1
@@ -65,6 +67,7 @@ applications:
     receipts: 1
     sales: 1
     shoes: 1
+    front: 1
   deployment:
     mailing: mailing-service
     books: books-service
@@ -73,6 +76,7 @@ applications:
     receipts: receipts-service
     sales: sales-service
     shoes: shoes-service
+    front: front-service
   services:
     mailing: mailing-service-service
     books: books-service-service
@@ -81,6 +85,7 @@ applications:
     receipts: receipts-service-service
     sales: sales-service-service
     shoes: shoes-service-service
+    front: front-service-service
   image:
     mailing: grz3lak1997/mailing-service:1
     books: grz3lak1997/books-service:1
@@ -89,6 +94,7 @@ applications:
     receipts: grz3lak1997/receipts-service:1
     sales: grz3lak1997/sales-service:1
     shoes: grz3lak1997/shoes-service:1
+    front: grz3lak1997/front-service:1
   prometheus:
     monitor:
       mailing: mailing-service-monitor

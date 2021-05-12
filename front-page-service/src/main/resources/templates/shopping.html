@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:include="layout :: headerFragment">
+</head>
+<body>
+<div id="container">
+
+  <form action="#" th:action="@{'/api/v1/front/book'}" th:method="get" >
+    <button type="submit" class="btn">
+      Add Book
+    </button>
+  </form>
+  <form action="#" th:action="@{'/api/v1/front/jacket'}" th:method="get" >
+    <button type="submit" class="btn">
+      Add Jacket
+    </button>
+  </form>
+  <form action="#" th:action="@{'/api/v1/front/shoe'}" th:method="get" >
+    <button type="submit" class="btn">
+      Add Shoe
+    </button>
+  </form>
+  <form action="#" th:action="@{'/api/v1/front/tshirt'}" th:method="get" >
+    <button type="submit" class="btn">
+      Add Tshirt
+    </button>
+  </form>
+
+  <h1>
+    Hello, <span th:text="${username}">--name--</span>.
+  </h1>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>price</th>
+      <th>title</th>
+      <th>author</th>
+      <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+      <td th:text="${book.price}">Text ...</td>
+      <td th:text="${book.title}">Text ...</td>
+      <td th:text="${book.author}">Text ...</td>
+      <td th:text="${book.description}">Text...</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>price</th>
+      <th>mark</th>
+      <th>size</th>
+      <th>producer</th>
+      <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="jacket : ${jackets}">
+      <td th:text="${jacket.price}">Text ...</td>
+      <td th:text="${jacket.mark}">Text ...</td>
+      <td th:text="${jacket.size}">Text ...</td>
+      <td th:text="${jacket.producer}">Text...</td>
+      <td th:text="${jacket.description}">Text...</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>price</th>
+      <th>mark</th>
+      <th>size</th>
+      <th>producer</th>
+      <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="shoe : ${shoes}">
+      <td th:text="${shoe.price}">Text ...</td>
+      <td th:text="${shoe.mark}">Text ...</td>
+      <td th:text="${shoe.size}">Text ...</td>
+      <td th:text="${shoe.producer}">Text...</td>
+      <td th:text="${shoe.description}">Text...</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>price</th>
+      <th>mark</th>
+      <th>size</th>
+      <th>producer</th>
+      <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tshirt : ${tshirts}">
+      <td th:text="${tshirt.price}">Text ...</td>
+      <td th:text="${tshirt.mark}">Text ...</td>
+      <td th:text="${tshirt.size}">Text ...</td>
+      <td th:text="${tshirt.producer}">Text...</td>
+      <td th:text="${tshirt.description}">Text...</td>
+    </tr>
+    </tbody>
+  </table>
+  <div id="pagefoot" th:include="layout :: footerFragment">Footer
+  </div>
+</div>
+<!-- container -->
+</body>
+</html>
