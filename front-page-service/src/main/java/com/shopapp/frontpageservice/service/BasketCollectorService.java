@@ -1,7 +1,8 @@
 package com.shopapp.frontpageservice.service;
 
 import com.shopapp.frontpageservice.model.Basket;
-import com.shopapp.frontpageservice.model.Book;
+import com.shopapp.frontpageservice.model.BasketDiscount;
+import com.shopapp.frontpageservice.model.BasketReceipt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,10 +19,32 @@ public class BasketCollectorService {
         basket =  new Basket();
     }
 
+    public BasketDiscount getBasketDiscount(){
+        BasketDiscount basketDiscount = webClientBuilder.build()
+                .get()
+                .uri(basketServiceAddress + ":8080/api/v1/basket/discount/")
+                .retrieve()
+                .bodyToMono(BasketDiscount.class)
+                .block();
+        System.out.println(basketDiscount.toString());
+        return basketDiscount;
+    }
+
+    public BasketReceipt getBasketReceipt(){
+        BasketReceipt basketReceipt = webClientBuilder.build()
+                .get()
+                .uri(basketServiceAddress + ":8080/api/v1/basket/receipt/")
+                .retrieve()
+                .bodyToMono(BasketReceipt.class)
+                .block();
+        System.out.println(basketReceipt.toString());
+        return basketReceipt;
+    }
+
     public Basket addBookToBasket(){
         Basket basketBooks = webClientBuilder.build()
                 .get()
-                .uri(basketServiceAddress + ":8080/api/v1/basket/book" + 1)
+                .uri(basketServiceAddress + ":8080/api/v1/basket/book/" + 1)
                 .retrieve()
                 .bodyToMono(Basket.class)
                 .block();
@@ -76,5 +99,14 @@ public class BasketCollectorService {
 
     public Basket getBasket() {
         return basket;
+    }
+
+    public void clearBasket() {
+        webClientBuilder.build()
+                .get()
+                .uri(basketServiceAddress + ":8080/api/v1/basket/clear/")
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
     }
 }

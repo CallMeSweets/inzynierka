@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.applications.name.keycloak }}
+  labels:
+    app: {{ .Values.applications.deployment.keycloak }}
+spec:
+  replicas: {{ .Values.applications.replicas.keycloak }}
+  selector:
+    matchLabels:
+      app: {{ .Values.applications.deployment.keycloak }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.applications.deployment.keycloak }}
+    spec:
+      containers:
+        - name: {{ .Values.applications.deployment.keycloak }}
+          image: {{ .Values.applications.image.keycloak }}
+          ports:
+            - containerPort: {{ .Values.applications.port.keycloak }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.applications.services.keycloak }}
+  labels:
+    app: {{ .Values.applications.deployment.keycloak }}
+spec:
+  selector:
+    app: {{ .Values.applications.deployment.keycloak }}
+  ports:
+    - protocol: TCP
+      name: http-traffic
+      port: 8080
+      targetPort: 8080

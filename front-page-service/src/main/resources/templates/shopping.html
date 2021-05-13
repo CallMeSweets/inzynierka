@@ -5,7 +5,17 @@
 <body>
 <div id="container">
 
-  <form action="#" th:action="@{'/api/v1/front/book'}" th:method="get" >
+  <form action="#" th:action="@{'/api/v1/front/receipt'}" th:method="get">
+    <button type="submit" class="btn">
+      Receipt
+    </button>
+  </form>
+  <form action="#" th:action="@{'/api/v1/front/discount'}" th:method="get">
+    <button type="submit" class="btn">
+      Discount
+    </button>
+  </form>
+  <form action="#" th:action="@{'/api/v1/front/book'}" th:method="get">
     <button type="submit" class="btn">
       Add Book
     </button>
@@ -25,10 +35,31 @@
       Add Tshirt
     </button>
   </form>
+  <form action="#" th:action="@{'/api/v1/front/clear'}" th:method="get" >
+    <button type="submit" class="btn">
+      Clear
+    </button>
+  </form>
 
-  <h1>
-    Hello, <span th:text="${username}">--name--</span>.
-  </h1>
+  <h1>Receipt:</h1>
+
+  Total cost: <p th:text=${totalCostReceipt}>Username will be rendered here</p>
+  <p th:text="${totalCostReceipt}">Text...</p>
+  <p>Discount:</p>
+  <span th:text="${totalCostReceipt}" th:remove="tag">userName</span>
+  <p th:text="${discountReceipt}">Text...</p>
+  <p>Total discount:</p>
+  <p th:text="${totalDiscountReceipt}">Text...</p>
+
+  <h1>Discount:</h1>
+
+  <p>Total cost:</p>
+  <p th:text="${totalCostDiscount}">Text...</p>
+  <p>Discount:</p>
+  <p th:text="${discountDiscount}">Text...</p>
+  <p>Discount cost:</p>
+  <p th:text="${discountCostDiscount}">Text...</p>
+
   <table class="table table-striped">
     <thead>
     <tr>
@@ -107,8 +138,6 @@
     </tr>
     </tbody>
   </table>
-  <div id="pagefoot" th:include="layout :: footerFragment">Footer
-  </div>
 </div>
 <!-- container -->
 </body>

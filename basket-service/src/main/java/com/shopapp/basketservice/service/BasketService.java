@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 @Service
@@ -34,6 +35,13 @@ public class BasketService {
         this.bookServiceAddress = bookServiceAddress;
         this.jacketTshirtServiceAddress = jacketTshirtServiceAddress;
         this.salesServiceAddress = salesServiceAddress;
+    }
+
+    public void clearBasket(){
+        basket.setBooks(new ArrayList<>());
+        basket.setJackets(new ArrayList<>());
+        basket.setTshirts(new ArrayList<>());
+        basket.setShoes(new ArrayList<>());
     }
 
     public Basket getBasket(){

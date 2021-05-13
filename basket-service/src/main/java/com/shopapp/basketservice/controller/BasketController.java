@@ -30,6 +30,13 @@ public class BasketController {
         return ResponseEntity.ok(basketService.getBasket());
     }
 
+    @GetMapping("/clear")
+    public String clearBasket(){
+        metricsService.increaseRequestNumber();
+        basketService.clearBasket();
+        return "OK";
+    }
+
     @GetMapping("/discount")
     public ResponseEntity<BasketDiscount> getBasketWithDiscount(){
         metricsService.increaseRequestNumber();

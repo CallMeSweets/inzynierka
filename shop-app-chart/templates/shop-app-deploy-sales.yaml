@@ -37,18 +37,18 @@ spec:
       port: 8080
       targetPort: 8080
 
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: {{ .Values.applications.prometheus.monitor.sales }}
-  labels:
-    release: prometheus
-spec:
-  selector:
-    matchLabels:
-      app: {{ .Values.applications.deployment.sales }}
-  endpoints:
-    - port: http-traffic
-      path: "/actuator/prometheus"
-      interval: 10s
+#---
+#apiVersion: monitoring.coreos.com/v1
+#kind: ServiceMonitor
+#metadata:
+#  name: {{ .Values.applications.prometheus.monitor.sales }}
+#  labels:
+#    release: prometheus
+#spec:
+#  selector:
+#    matchLabels:
+#      app: {{ .Values.applications.deployment.sales }}
+#  endpoints:
+#    - port: http-traffic
+#      path: "/actuator/prometheus"
+#      interval: 10s

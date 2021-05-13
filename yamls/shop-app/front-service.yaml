@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: front-service-deployment
+  name: front-deployment
   labels:
-    app: front-service
+    app: front
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: front-service
+      app: front
   template:
     metadata:
       labels:
-        app: front-service
+        app: front
     spec:
       containers:
-        - name: front-service
+        - name: front
           image: grz3lak1997/front-service:1
           imagePullPolicy: Always
           ports:
@@ -23,17 +23,19 @@ spec:
           env:
             - name: BASKET_HOST
               value: basket-service-service
+            - name: KEYKLOAK_HOST
+              value: keycloak
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: front-service-service
+  name: front
   labels:
-    app: front-service
+    app: front
 spec:
   selector:
-    app: front-service
+    app: front
   ports:
     - protocol: TCP
       name: http-traffic

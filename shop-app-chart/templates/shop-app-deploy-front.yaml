@@ -23,6 +23,8 @@ spec:
           env:
             - name: BASKET_HOST
               value: basket-service-service
+            - name: KEYKLOAK_HOST
+              value: keycloak
 
 ---
 apiVersion: v1
