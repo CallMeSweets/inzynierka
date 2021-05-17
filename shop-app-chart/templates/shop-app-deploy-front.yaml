@@ -23,8 +23,8 @@ spec:
           env:
             - name: BASKET_HOST
               value: basket-service-service
-            - name: KEYKLOAK_HOST
-              value: keycloak
+            - name: KEYCLOAK_HOST
+              value: http://nb-172-105-146-49.frankfurt.nodebalancer.linode.com/auth/
 
 ---
 apiVersion: v1

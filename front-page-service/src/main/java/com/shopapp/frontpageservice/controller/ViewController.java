@@ -16,7 +16,7 @@ public class ViewController {
         this.basketCollectorService = basketCollectorService;
     }
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "/front")
     public String index() {
         return "external";
     }
@@ -28,7 +28,6 @@ public class ViewController {
         model.addAttribute("jackets", basket.getJackets());
         model.addAttribute("tshirts", basket.getTshirts());
         model.addAttribute("shoes", basket.getShoes());
-        model.addAttribute("username", principal.getName());
         return "shopping";
     }
 

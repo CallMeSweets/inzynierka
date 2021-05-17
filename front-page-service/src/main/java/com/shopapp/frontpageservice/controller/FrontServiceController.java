@@ -1,8 +1,6 @@
 package com.shopapp.frontpageservice.controller;
 
 import com.shopapp.frontpageservice.model.Basket;
-import com.shopapp.frontpageservice.model.BasketDiscount;
-import com.shopapp.frontpageservice.model.BasketReceipt;
 import com.shopapp.frontpageservice.service.BasketCollectorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 
 @Controller
-@RequestMapping("/api/v1/front")
+@RequestMapping("/shopping/api/v1/front")
 public class FrontServiceController {
 
     private final BasketCollectorService basketCollectorService;

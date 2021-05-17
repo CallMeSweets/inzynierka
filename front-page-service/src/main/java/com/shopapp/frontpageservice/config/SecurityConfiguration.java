@@ -43,8 +43,8 @@ public class SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter 
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers("/shopping*", "/api*")
-                .hasRole("user1")
+                .antMatchers("/shopping*")
+                .hasAnyRole("user1", "offline_access", "default-roles-shop-app", "uma_authorization")
                 .anyRequest()
                 .permitAll();
     }

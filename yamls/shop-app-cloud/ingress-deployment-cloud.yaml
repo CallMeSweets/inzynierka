@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+spec:
+  rules:
+    - host: nb-172-105-146-49.frankfurt.nodebalancer.linode.com
+      http:
+        paths:
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8080
+          - path: /front
+            pathType: Prefix
+            backend:
+              service:
+                name: front
+                port:
+                  number: 8080
+          - path: /sso/login
+            pathType: Prefix
+            backend:
+              service:
+                name: front
+                port:
+                  number: 8080
+          - path: /shopping
+            pathType: Prefix
+            backend:
+              service:
+                name: front
+                port:
+                  number: 8080
+
