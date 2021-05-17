@@ -17,8 +17,20 @@ spec:
       containers:
         - name: {{ .Values.applications.deployment.keycloak }}
           image: {{ .Values.applications.image.keycloak }}
+          env: # Setting Enviornmental Variables
+          - name: KEYCLOAK_USER
+            value: "admin"
+          - name: KEYCLOAK_PASSWORD
+            value: "admin"
+          - name: PROXY_ADDRESS_FORWARDING
+            value: "true"
+          - name: DB_VENDOR
+            value: h2
           ports:
-            - containerPort: {{ .Values.applications.port.keycloak }}
+          - name: http
+            containerPort: 8080
+          - name: https
+            containerPort: 8443
 ---
 apiVersion: v1
 kind: Service
