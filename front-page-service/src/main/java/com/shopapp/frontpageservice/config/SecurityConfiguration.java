@@ -44,7 +44,7 @@ public class SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter 
         super.configure(http);
         http.authorizeRequests()
                 .antMatchers("/shopping*")
-                .hasAnyRole("user1", "offline_access", "default-roles-shop-app", "uma_authorization")
+                .hasAnyRole("user1", "offline_access", "default-roles-shop-app", "uma_authorization", "ANONYMOUS")
                 .anyRequest()
                 .permitAll();
     }
