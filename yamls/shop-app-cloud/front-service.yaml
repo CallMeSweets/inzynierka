@@ -24,7 +24,7 @@ spec:
             - name: BASKET_HOST
               value: basket-service-service
             - name: KEYCLOAK_HOST
-              value: http://nb-172-105-146-49.frankfurt.nodebalancer.linode.com/auth/
+              value: http://nb-192-46-238-180.frankfurt.nodebalancer.linode.com/auth/
 
 ---
 apiVersion: v1
