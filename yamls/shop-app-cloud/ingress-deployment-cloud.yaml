@@ -4,7 +4,7 @@ metadata:
   name: ingress
 spec:
   rules:
-    - host: nb-172-105-146-49.frankfurt.nodebalancer.linode.com
+    - host: nb-192-46-238-180.frankfurt.nodebalancer.linode.com
       http:
         paths:
           - path: /auth
